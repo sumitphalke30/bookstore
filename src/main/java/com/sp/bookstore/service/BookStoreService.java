@@ -30,9 +30,10 @@ public class BookStoreService {
     }
 
     public void printBookStatus() {
+      log.info("Inventory:");
         bookStore.forEach(
                 (bookId, bookInfo) -> {
-                    log.info("Book ID,Name: {}, {}", bookInfo.getId(), bookInfo.getBookName());
+                    log.info("{}, {}, {}", bookInfo.getId(), bookInfo.getQuantity(), bookInfo.getPrice());
                 }
         );
     }
@@ -40,7 +41,7 @@ public class BookStoreService {
     public void performTransaction(String transaction) {
         if(!transaction.isEmpty()) {
             String action = transaction.split(",")[0];
-            log.info("Action: {}", action);
+            //log.info("Action: {}", action);
 
             List<Book> bookRequestedList = transactionParser.getBooks(action, transaction);
 
@@ -66,7 +67,7 @@ public class BookStoreService {
             BigDecimal total = bookStoreRecord.getPrice().multiply(new BigDecimal(bookRequested.getQuantity())).negate();
             log.info("Refund {} copies of {} at {} each. Total: {}", bookRequested.getQuantity(), bookRequested.getId(), bookStoreRecord.getPrice(), total);
         } else {
-            log.error("Book {} does not exists!", bookRequested.getId());
+            log.error("Book {} not available!", bookRequested.getId());
         }
     }
 
@@ -77,7 +78,7 @@ public class BookStoreService {
             bookStore.put(bookStoreRecord.getId(), bookStoreRecord);
             log.info("New price for {}: {} each", bookRequested.getId(), bookRequested.getPrice());
         } else {
-            log.error("Book {} does not exists!", bookRequested.getId());
+            log.error("Book {} not available!", bookRequested.getId());
         }
 
     }
@@ -88,7 +89,7 @@ public class BookStoreService {
             log.info("There are {} copies of {}. Price:{} each.", bookStoreRecord.getQuantity(), bookStoreRecord.getId(), bookStoreRecord.getPrice());
 
         } else {
-            log.error("Book {} does not exists!", bookRequested.getId());
+            log.error("Book {} not available!", bookRequested.getId());
         }
 
     }
@@ -115,10 +116,10 @@ public class BookStoreService {
                 BigDecimal total = bookStoreRecord.getPrice().multiply(new BigDecimal(bookRequested.getQuantity()));
                 log.info("Sold {} copies of book {} at {} each. Total: {}", bookRequested.getQuantity(), bookStoreRecord.getId(), bookStoreRecord.getPrice(), total);
             } else {
-                log.error("Not enough book {} available!", bookRequested.getId());
+                log.error("Insufficient quantity of {}", bookRequested.getId());
             }
         } else {
-            log.error("Book not found!");
+            log.error("Book {} not available!", bookRequested.getId());
         }
     }
 }

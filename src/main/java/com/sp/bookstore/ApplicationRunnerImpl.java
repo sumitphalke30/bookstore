@@ -7,6 +7,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+
 @Component
 @Log4j2
 public class ApplicationRunnerImpl implements ApplicationRunner {
@@ -16,19 +20,25 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        bookStoreService.initialize();
+        //bookStoreService.initialize();
 
         try {
-            String transaction = args.getSourceArgs()[0];
-            bookStoreService.performTransaction(transaction);
+            String path = "/home/sumit/Downloads/bookstore/src/main/resources/booktransaction.csv";
+
+            try(Stream<String> transactionStream = Files.lines(Paths.get(path))) {
+                transactionStream.forEach(bookStoreService::performTransaction);
+            }
+
+//            String transaction = args.getSourceArgs()[0];
+//            bookStoreService.performTransaction(transaction);
+
+
         } catch (ArrayIndexOutOfBoundsException arrayIndexExp) {
             log.error("Invalid parameters provided exception!");
         }
         catch (Exception ex) {
             log.error("There was error while executing program!", ex);
         }
-
-        //
-        // bookStoreService.printBookStatus();
+        bookStoreService.printBookStatus();
     }
 }
