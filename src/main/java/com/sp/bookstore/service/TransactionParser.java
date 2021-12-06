@@ -53,10 +53,6 @@ public class TransactionParser {
             }
             list.add(book);
         }
-
-
-
-
         return list;
     }
 }
