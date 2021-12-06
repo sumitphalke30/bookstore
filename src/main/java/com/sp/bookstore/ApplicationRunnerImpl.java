@@ -17,6 +17,18 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         bookStoreService.initialize();
-        //bookStoreService.printBookStatus();
+
+        try {
+            String transaction = args.getSourceArgs()[0];
+            bookStoreService.performTransaction(transaction);
+        } catch (ArrayIndexOutOfBoundsException arrayIndexExp) {
+            log.error("Invalid parameters provided exception!");
+        }
+        catch (Exception ex) {
+            log.error("There was error while executing program!", ex);
+        }
+
+        //
+        // bookStoreService.printBookStatus();
     }
 }
