@@ -32,9 +32,7 @@ public class BookStoreService {
     public void printBookStatus() {
       log.info("Inventory:");
         bookStore.forEach(
-                (bookId, bookInfo) -> {
-                    log.info("{}, {}, {}", bookInfo.getId(), bookInfo.getQuantity(), bookInfo.getPrice());
-                }
+                (bookId, bookInfo) -> log.info("{}, {}, {}", bookInfo.getId(), bookInfo.getQuantity(), bookInfo.getPrice())
         );
     }
 
