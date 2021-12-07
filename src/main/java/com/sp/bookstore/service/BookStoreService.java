@@ -17,17 +17,7 @@ public class BookStoreService {
     @Autowired
     private  TransactionParser transactionParser;
 
-    HashMap<Integer, Book> bookStore = new HashMap<>();
-
-    public void initialize() {
-        log.info("Initializing bookStoreList");
-
-        Book book1 = new Book(1617292605, "BOOK1", 40, new BigDecimal("22"));
-        Book book2 = new Book(1449358624, "BOOK2", 23, new BigDecimal("21.7"));
-
-        bookStore.put(book1.getId(), book1);
-        bookStore.put(book2.getId(), book2);
-    }
+    public HashMap<Integer, Book> bookStore = new HashMap<>();
 
     public void printBookStatus() {
       log.info("Inventory:");
