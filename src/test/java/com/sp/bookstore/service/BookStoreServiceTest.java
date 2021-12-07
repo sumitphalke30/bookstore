@@ -1,6 +1,7 @@
 package com.sp.bookstore.service;
 
 import com.sp.bookstore.model.Book;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ class BookStoreServiceTest {
 
     @Autowired
     private BookStoreService bookStoreService;
+
+    @BeforeEach
+    public void setup() {
+        bookStoreService.bookStore.clear();
+    }
 
     @Test
     void performTransactionReceive() {
